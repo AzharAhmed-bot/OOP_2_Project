@@ -3,15 +3,13 @@ package Database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UsersTable implements DatabaseInterface<User> {
-    private static final Logger LOGGER = Logger.getLogger(UsersTable.class.getName());
+
     private Connection conn;
 
     public UsersTable(Connection connection) {
-        this.conn=connection;
+        this.conn = connection;
     }
 
     private static final String GET_ALL_QUERY = "SELECT * FROM Users";
@@ -29,7 +27,9 @@ public class UsersTable implements DatabaseInterface<User> {
                 users.add(user);
             }
         } catch (SQLException e) {
-            handleSQLException(e);
+            String errorMessage = "Error fetching all users";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
         }
         return users;
     }
@@ -45,7 +45,9 @@ public class UsersTable implements DatabaseInterface<User> {
                 }
             }
         } catch (SQLException e) {
-            handleSQLException(e);
+            String errorMessage = "Error fetching user by ID: " + id;
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
         }
         return user;
     }
@@ -58,9 +60,11 @@ public class UsersTable implements DatabaseInterface<User> {
             ps.setString(3, user.getPassword());
             ps.setTimestamp(4, user.getCreatedAt());
             ps.executeUpdate();
-            LOGGER.info("User inserted successfully");
+            DatabaseLogger.logInfo("User inserted successfully");
         } catch (SQLException e) {
-            handleSQLException(e);
+            String errorMessage = "Error inserting user: " + user.getName();
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
         }
     }
 
@@ -70,12 +74,14 @@ public class UsersTable implements DatabaseInterface<User> {
             ps.setInt(1, id);
             int deletedRows = ps.executeUpdate();
             if (deletedRows > 0) {
-                LOGGER.info("User with ID: " + id + " deleted successfully");
+                DatabaseLogger.logInfo("User with ID: " + id + " deleted successfully");
             } else {
-                LOGGER.info("No user found with ID: " + id);
+                DatabaseLogger.logInfo("No user found with ID: " + id);
             }
         } catch (SQLException e) {
-            handleSQLException(e);
+            String errorMessage = "Error deleting user with ID: " + id;
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
         }
     }
 
@@ -86,12 +92,14 @@ public class UsersTable implements DatabaseInterface<User> {
             ps.setInt(2, id);
             int updatedRows = ps.executeUpdate();
             if (updatedRows > 0) {
-                LOGGER.info("User with ID: " + id + " updated successfully");
+                DatabaseLogger.logInfo("User with ID: " + id + " updated successfully");
             } else {
-                LOGGER.info("No user found with ID: " + id);
+                DatabaseLogger.logInfo("No user found with ID: " + id);
             }
         } catch (SQLException e) {
-            handleSQLException(e);
+            String errorMessage = "Error updating user with ID: " + id;
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
         }
     }
 
@@ -103,10 +111,4 @@ public class UsersTable implements DatabaseInterface<User> {
         Timestamp createdAt = rs.getTimestamp("created_at");
         return new User(id, name, email, password, createdAt);
     }
-
-    private void handleSQLException(SQLException e) {
-        LOGGER.log(Level.SEVERE, "Error executing SQL: " + e.getMessage(), e);
-    }
-
-   
 }
