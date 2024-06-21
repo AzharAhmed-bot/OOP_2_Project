@@ -7,5 +7,5 @@ public interface DatabaseInterface<T> {
     T getById(int id);
     void insert(T entity);
     void delete(int id);
-    void update(int id, T entity);
+    void update(int id,String column, Object value);
 }

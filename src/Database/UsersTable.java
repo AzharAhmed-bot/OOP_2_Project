@@ -58,7 +58,7 @@ public class UsersTable implements DatabaseInterface<User> {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
-            ps.setTimestamp(4, user.getCreatedAt());
+            ps.setTimestamp(4, user.getCreated_at());
             ps.executeUpdate();
             DatabaseLogger.logInfo("User inserted successfully");
         } catch (SQLException e) {
@@ -86,21 +86,19 @@ public class UsersTable implements DatabaseInterface<User> {
     }
 
     @Override
-    public void update(int id, User user) {
-        try (PreparedStatement ps = conn.prepareStatement(UPDATE_QUERY)) {
-            ps.setString(1, user.getName());
-            ps.setInt(2, id);
-            int updatedRows = ps.executeUpdate();
-            if (updatedRows > 0) {
-                DatabaseLogger.logInfo("User with ID: " + id + " updated successfully");
-            } else {
-                DatabaseLogger.logInfo("No user found with ID: " + id);
-            }
-        } catch (SQLException e) {
-            String errorMessage = "Error updating user with ID: " + id;
-            DatabaseLogger.logError(errorMessage, e);
-            throw new DatabaseException(errorMessage, e);
-        }
+    public void update(int id,String column, Object value) {
+        String query="UPDATE Users SET"+column+" =? WHERE id = ?";
+       try{
+        PreparedStatement ps=conn.prepareStatement(query);
+        ps.setObject(1,value);
+        ps.setInt(2,id);
+        ps.executeUpdate();
+        DatabaseLogger.logInfo("User"+id +"updated successfully");
+       }catch(SQLException e){
+           String errorMessage="Error updating user"+id;
+           DatabaseLogger.logError(errorMessage,e);
+           throw new DatabaseException(errorMessage,e);
+       }
     }
 
     private User mapResultSetToUser(ResultSet rs) throws SQLException {

@@ -1,18 +1,19 @@
 import Database.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         try {
             Connection connection = DatabaseConnection.getConnection();
-            UsersTable users = new UsersTable(connection);
+            UsersTable users=new UsersTable(connection);
+            AcademicGoalsTable academicGoalsTable = new AcademicGoalsTable(connection);
 
-            List<User> userList = users.getAll();
-            for (User user : userList) {
-                System.out.println("ID: " + user.getId() + ", Name: " + user.getName() + ", Email: " + user.getEmail() + ", Created At: " + user.getCreatedAt());
-            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
