@@ -41,4 +41,25 @@ public class UsersTable extends BaseTable<User> {
             throw new DatabaseException(errorMessage, e);
         }
     }
+
+    public User Login(String email, String password){
+        String query="SELECT * FROM Users WHERE email=? AND password=?";
+        try{
+            PreparedStatement ps=connection.prepareStatement(query);
+            ps.setString(1, email );
+            ps.setString(2, password);
+            ResultSet rs=ps.executeQuery();
+            if(rs.next()){
+                return mapResultSetToEntity(rs);
+            }
+            else{
+                return null;
+            }
+        }catch (SQLException e) {
+            String errorMessage = "Error logging in User";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+       
+    }
 }
