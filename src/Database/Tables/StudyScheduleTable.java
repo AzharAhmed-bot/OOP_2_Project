@@ -1,8 +1,13 @@
-package Database;
+package Database.Tables;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import Database.Common.DatabaseException;
+import Database.Common.DatabaseInterface;
+import Database.Common.DatabaseLogger;
+import Database.Models.StudySchedule;
 
 public class StudyScheduleTable implements DatabaseInterface<StudySchedule> {
     private Connection connection;

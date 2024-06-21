@@ -1,8 +1,13 @@
-package Database;
+package Database.Tables;
 
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+
+import Database.Common.DatabaseException;
+import Database.Common.DatabaseInterface;
+import Database.Common.DatabaseLogger;
+import Database.Models.AcademicGoal;
 
 public class AcademicGoalsTable implements DatabaseInterface<AcademicGoal> {
     private Connection connection;

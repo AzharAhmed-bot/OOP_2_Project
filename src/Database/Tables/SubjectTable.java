@@ -1,8 +1,13 @@
-package Database;
+package Database.Tables;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import Database.Common.DatabaseException;
+import Database.Common.DatabaseInterface;
+import Database.Common.DatabaseLogger;
+import Database.Models.Subject;
 
 public class SubjectTable implements DatabaseInterface<Subject> {
     private Connection connection;

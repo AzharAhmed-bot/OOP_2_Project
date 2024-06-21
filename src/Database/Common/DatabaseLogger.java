@@ -1,4 +1,4 @@
-package Database;
+package Database.Common;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

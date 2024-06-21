@@ -1,4 +1,4 @@
-package Database;
+package Database.Models;
 
 public class Subject {
     private int id;
