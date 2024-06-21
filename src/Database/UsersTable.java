@@ -16,7 +16,6 @@ public class UsersTable implements DatabaseInterface<User> {
     private static final String GET_BY_ID_QUERY = "SELECT * FROM Users WHERE id=?";
     private static final String INSERT_QUERY = "INSERT INTO Users (name, email, password, created_at) VALUES (?, ?, ?, ?)";
     private static final String DELETE_QUERY = "DELETE FROM Users WHERE id=?";
-    private static final String UPDATE_QUERY = "UPDATE Users SET name=? WHERE id=?";
 
     @Override
     public List<User> getAll() {
