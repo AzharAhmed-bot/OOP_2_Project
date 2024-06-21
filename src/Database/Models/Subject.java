@@ -5,13 +5,13 @@ public class Subject {
     private int user_id;
     private String subject_name;
 
-    public Subject(int id, int user_id, String subject_name) {
+    public Subject(int id, String subject_name,int user_id) {
         this.id = id;
         this.user_id = user_id;
         this.subject_name = subject_name;
     }
 
-    public Subject(int user_id, String subject_name) {
+    public Subject(String subject_name, int user_id) {
         this.user_id = user_id;
         this.subject_name = subject_name;
     }
