@@ -1,4 +1,4 @@
-package Database;
+package Database.Common;
 
 public class DatabaseException extends RuntimeException {
 
