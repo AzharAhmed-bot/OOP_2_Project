@@ -10,11 +10,23 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
         super(connection);
     }
 
+    /**
+     * Gets the table name for EnergyLevels.
+     *
+     * @return          the table name "EnergyLevels"
+     */
     @Override
     protected String getTableName() {
         return "EnergyLevels";
     }
 
+        /**
+         * Maps a ResultSet to an EnergyLevel entity.
+         *
+         * @param  rs  the ResultSet to map
+         * @return     the EnergyLevel entity mapped from the ResultSet
+         * @throws SQLException if an error occurs while retrieving data from the ResultSet
+         */
     @Override
     protected EnergyLevel mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -24,6 +36,11 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
         return new EnergyLevel(id, user_id, time_of_day, energy_rating);
     }
 
+    /**
+     * Inserts an EnergyLevel object into the EnergyLevels table.
+     *
+     * @param  energyLevel  the EnergyLevel object to insert
+     */
     public void insert(EnergyLevel energyLevel) {
         String query = "INSERT INTO EnergyLevels (user_id, time_of_day, energy_rating) VALUES (?, ?, ?)";
         try {

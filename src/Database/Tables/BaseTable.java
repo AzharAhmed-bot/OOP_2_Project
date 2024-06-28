@@ -8,6 +8,7 @@ import Database.Common.DatabaseException;
 import Database.Common.DatabaseInterface;
 import Database.Common.DatabaseLogger;
 
+
 public abstract class BaseTable<T> implements DatabaseInterface<T> {
     protected Connection connection;
 
@@ -18,6 +19,12 @@ public abstract class BaseTable<T> implements DatabaseInterface<T> {
     protected abstract String getTableName();
     protected abstract T mapResultSetToEntity(ResultSet rs) throws SQLException;
 
+    /**
+     * Retrieves all entities from the database table associated with this instance.
+     *
+     * @return          a list of entities retrieved from the database
+     * @throws DatabaseException if there is an error executing the SQL query
+     */
     @Override
     public List<T> getAll() {
         List<T> entities = new ArrayList<>();
@@ -37,6 +44,13 @@ public abstract class BaseTable<T> implements DatabaseInterface<T> {
         return entities;
     }
 
+    /**
+     * Retrieves an entity from the database based on the given ID.
+     *
+     * @param  id  the ID of the entity to retrieve
+     * @return     the retrieved entity, or null if no entity is found
+     * @throws DatabaseException if there is an error executing the SQL query
+     */
     @Override
     public T getById(int id) {
         T entity = null;
@@ -56,6 +70,11 @@ public abstract class BaseTable<T> implements DatabaseInterface<T> {
         return entity;
     }
 
+    /**
+     * Deletes a record from the database based on the provided ID.
+     *
+     * @param  id  the ID of the record to delete
+     */
     @Override
     public void delete(int id) {
         String query = "DELETE FROM " + getTableName() + " WHERE id=?";
@@ -71,6 +90,14 @@ public abstract class BaseTable<T> implements DatabaseInterface<T> {
         }
     }
 
+    /**
+     * Updates a record in the database table with the specified ID and column.
+     *
+     * @param  id        the ID of the record to update
+     * @param  column    the column to update
+     * @param  value     the new value for the specified column
+     * @throws DatabaseException if there is an error updating the record
+     */
     @Override
     public void update(int id, String column, Object value) {
         String query = "UPDATE " + getTableName() + " SET " + column + " = ? WHERE id = ?";

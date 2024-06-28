@@ -13,10 +13,25 @@ public class StudyScheduleTable extends BaseTable<StudySchedule>{
     private static final String TABLE_NAME = "StudySchedule";
     private static final String INSERT_QUERY="INSERT INTO StudySchedule (user_id,created_at,updated_at) VALUES (?,?,?)";
 
+    /**
+     * Returns the name of the table.
+     *
+     * @return the name of the table
+     */
     @Override
     protected String getTableName(){
         return TABLE_NAME;
     }
+    
+    
+    /**
+     * Maps a ResultSet object to a StudySchedule object by extracting the values from the ResultSet
+     * for the columns "id", "user_id", "created_at", and "updated_at". 
+     *
+     * @param  rs  the ResultSet object containing the data to be mapped
+     * @return      a StudySchedule object with the extracted values
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     protected StudySchedule mapResultSetToEntity(ResultSet rs) throws SQLException{
         int id=rs.getInt("id");
@@ -27,6 +42,11 @@ public class StudyScheduleTable extends BaseTable<StudySchedule>{
     }
 
 
+    /**
+     * Inserts a StudySchedule into the database.
+     *
+     * @param  studySchedule  the StudySchedule object to insert
+     */
     public void insert(StudySchedule studySchedule){
         try{
             PreparedStatement ps=connection.prepareStatement(INSERT_QUERY);

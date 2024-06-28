@@ -15,11 +15,24 @@ public class AcademicGoalsTable extends BaseTable<AcademicGoal> {
         super(connection);
     }
 
+    /**
+     * Returns the name of the table.
+     *
+     * @return the name of the table
+     */
     @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
 
+    
+    /**
+     * Maps a ResultSet to an AcademicGoal object.
+     *
+     * @param  rs   the ResultSet to be mapped
+     * @return      the mapped AcademicGoal object
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     protected AcademicGoal mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -31,6 +44,12 @@ public class AcademicGoalsTable extends BaseTable<AcademicGoal> {
         return new AcademicGoal(id, user_id, goal_description, (java.sql.Date) target_date, priority_level, status);
     }
 
+    /**
+     * Inserts an academic goal into the database.
+     *
+     * @param  academicGoal  the academic goal to be inserted
+     * @throws DatabaseException  if there is an error inserting the academic goal
+     */
     public void insert(AcademicGoal academicGoal) {
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_QUERY);
