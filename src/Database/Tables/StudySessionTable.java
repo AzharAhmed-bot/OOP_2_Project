@@ -21,11 +21,24 @@ public class StudySessionTable extends BaseTable<StudySession> {
         super(connection);
     }
 
+    
+    /**
+     * Returns the name of the table.
+     *
+     * @return the name of the table
+     */
     @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
 
+    /**
+     * Maps a ResultSet to a StudySession entity.
+     *
+     * @param  rs   the ResultSet to map
+     * @return      a StudySession entity
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     protected StudySession mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -39,6 +52,12 @@ public class StudySessionTable extends BaseTable<StudySession> {
         return new StudySession(id, schedule_id, subject_id, user_id, session_date, start_time, end_time, status);
     }
 
+    /**
+     * Inserts a StudySession object into the database.
+     *
+     * @param  studySession   the StudySession object to insert
+     * @throws DatabaseException if there is an error inserting the StudySession
+     */
     public void insert(StudySession studySession) {
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_QUERY);

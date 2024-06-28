@@ -20,6 +20,14 @@ import Database.Models.User;
 import Database.Tables.UsersTable;
 
 public class Main {
+    
+    /**
+     * The main function that serves as the entry point of the program. It establishes a connection to the database,
+     * creates a UsersTable object, prompts the user to enter their email and password, and attempts to log the user in.
+     * If the login is successful, it prints a welcome message with the user's name. Otherwise, it prints "Login failed".
+     *
+     * @param  args	an array of command-line arguments
+     */
     public static void main(String[] args) {
         try{
             Connection connection=DatabaseConnection.getConnection();

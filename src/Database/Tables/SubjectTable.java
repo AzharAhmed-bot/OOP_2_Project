@@ -16,11 +16,24 @@ public class SubjectTable extends BaseTable<Subject> {
         super(connection);
     }
 
+    
+    /**
+     * Returns the name of the table.
+     *
+     * @return the name of the table
+     */  
     @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
 
+    /**
+     * Maps a ResultSet to a Subject entity.
+     *
+     * @param  rs   the ResultSet to map
+     * @return      a Subject entity mapped from the ResultSet
+     * @throws SQLException if an error occurs while retrieving data from the ResultSet
+     */
     @Override
     protected Subject mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -29,6 +42,12 @@ public class SubjectTable extends BaseTable<Subject> {
         return new Subject(id, subject_name, user_id);
     }
 
+    /**
+     * Inserts a Subject object into the database.
+     *
+     * @param  subject   the Subject object to insert
+     * @throws DatabaseException if there is an error inserting the Subject
+     */
     public void insert(Subject subject) {
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_QUERY);
