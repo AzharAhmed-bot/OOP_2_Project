@@ -49,7 +49,6 @@ public class AuthenticationController {
     public AcademicGoal handleSaveGoals(int userId,String goal_description,Date target_date,int priority_level,String status){
         AcademicGoal newAcademicGoal=authService.newAcademicGoal(userId, goal_description, target_date, priority_level, status);
         if (newAcademicGoal != null) {
-            System.out.println("Goal created: " + newAcademicGoal.getGoal_description());
             return newAcademicGoal;
         }
         return null;

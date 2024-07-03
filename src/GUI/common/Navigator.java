@@ -39,11 +39,11 @@ public class Navigator {
         }
     }
 
-    public void navigateToAcademicGoalPage(Component component,int userId){
+    public void navigateToAcademicGoalPage(Component component,int userId,String userName){
         System.out.println("Navigating to Academic Goal page");
         JFrame frame=(JFrame) SwingUtilities.getWindowAncestor(component);
         if(frame != null){
-            AcademicGoalsPage academicGoalPage=new AcademicGoalsPage(userId);
+            AcademicGoalsPage academicGoalPage=new AcademicGoalsPage(userId,userName);
             frame.setContentPane(academicGoalPage);
             frame.revalidate();
             frame.repaint();

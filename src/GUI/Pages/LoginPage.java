@@ -102,7 +102,7 @@ public class LoginPage extends JPanel {
                     errorLabel.setLabelText("Invalid email or password. Please try again.");
                 }else{
                     errorLabel.setLabelText("Login successful");
-                    navigator.navigateToAcademicGoalPage(this,isLoggedIn.getId());
+                    navigator.navigateToAcademicGoalPage(this,isLoggedIn.getId(),isLoggedIn.getName());
                 }
             }
         });
