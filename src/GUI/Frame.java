@@ -9,7 +9,7 @@ public class Frame extends JFrame {
         super(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setSize(600,400);
+        setSize(1000,600);
     
 
 

@@ -16,6 +16,7 @@ public class Label extends JPanel {
         label.setText(text);
     }
 
+
     public String getLabelText() {
         return label.getText();
     }

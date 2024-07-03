@@ -13,10 +13,15 @@ public class InputField extends JPanel {
         } else {
             inputField = new JPasswordField();
         }
-        add(inputField);
+        inputField.setPreferredSize(new Dimension(200, 30));
+        add(inputField, BorderLayout.CENTER);
     }
 
     public String getInputFieldText() {
         return inputField.getText();
+    }
+
+    public void clearInputFieldText() {
+        inputField.setText("");
     }
 }
