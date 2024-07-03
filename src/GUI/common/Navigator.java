@@ -5,8 +5,8 @@ import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import GUI.Pages.LoginPage;
-import GUI.Pages.SignUpPage;
+import GUI.Pages.*;
+
 
 public class Navigator {
     public Navigator(){
@@ -32,6 +32,19 @@ public class Navigator {
         if(frame != null){
             SignUpPage signUpPage=new SignUpPage();
             frame.setContentPane(signUpPage);
+            frame.revalidate();
+            frame.repaint();
+        }else {
+            System.err.println("Unable to find JFrame ancestor");
+        }
+    }
+
+    public void navigateToAcademicGoalPage(Component component,int userId){
+        System.out.println("Navigating to Academic Goal page");
+        JFrame frame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(frame != null){
+            AcademicGoalsPage academicGoalPage=new AcademicGoalsPage(userId);
+            frame.setContentPane(academicGoalPage);
             frame.revalidate();
             frame.repaint();
         }else {

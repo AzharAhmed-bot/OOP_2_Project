@@ -8,6 +8,9 @@ import GUI.common.Label;
 import GUI.common.Navigator;
 
 import javax.swing.*;
+
+import Database.Models.User;
+
 import java.awt.*;
 
 public class LoginPage extends JPanel {
@@ -37,11 +40,18 @@ public class LoginPage extends JPanel {
         titleLabel.setPreferredSize(new Dimension(350, 50));
         centralPanel.add(titleLabel, BorderLayout.NORTH);
 
+
+        
+        
+
+
+
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(4, 1, 10, 10));
         formPanel.setBackground(new Color(240, 248, 255));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        
         // Email field
         Label emailLabel = new Label("Email:");
         emailLabel.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -56,6 +66,14 @@ public class LoginPage extends JPanel {
         formPanel.add(passwordLabel);
         formPanel.add(passwordField);
 
+        // Error Label
+        Label errorLabel=new Label("");
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        errorLabel.setVerticalAlignment(SwingConstants.CENTER);
+        formPanel.add(errorLabel);
+
         // Add form panel to central panel
         centralPanel.add(formPanel, BorderLayout.CENTER);
 
@@ -65,6 +83,7 @@ public class LoginPage extends JPanel {
 
         Button loginButton = new Button("Login", new Color(70, 130, 180), Color.WHITE);
         Button signUpButton = new Button("Sign Up", new Color(34, 139, 34), Color.WHITE);
+    
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signUpButton);
@@ -73,7 +92,19 @@ public class LoginPage extends JPanel {
         loginButton.addActionListener(e -> {
             String email = emailField.getInputFieldText();
             String password = passwordField.getInputFieldText();
-            authController.handleLogin(email, password);
+            
+            if(email.isEmpty() || password.isEmpty()){
+                errorLabel.setLabelText("Please fill in the fields ");
+            }else{
+                User isLoggedIn=authController.handleLogin(email, password);
+            
+                if(isLoggedIn ==null){
+                    errorLabel.setLabelText("Invalid email or password. Please try again.");
+                }else{
+                    errorLabel.setLabelText("Login successful");
+                    navigator.navigateToAcademicGoalPage(this,isLoggedIn.getId());
+                }
+            }
         });
 
         signUpButton.addActionListener(e -> {

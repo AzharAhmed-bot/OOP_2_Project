@@ -9,8 +9,13 @@ import java.awt.*;
 
 public class WelcomePage extends JPanel {
     Navigator navigator;
+    SignUpPage signUpPage;
+    LoginPage loginPage;
     public WelcomePage() {
         navigator=new Navigator();
+        loginPage=new LoginPage();
+        signUpPage=new SignUpPage();
+
         // Set background color for the main panel
         setBackground(new Color(240, 248, 255)); // Alice Blue
 
