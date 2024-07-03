@@ -2,12 +2,15 @@ package GUI.Pages;
 
 import GUI.common.Button;
 import GUI.common.Label;
+import GUI.common.Navigator;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class WelcomePage extends JPanel {
+    Navigator navigator;
     public WelcomePage() {
+        navigator=new Navigator();
         // Set background color for the main panel
         setBackground(new Color(240, 248, 255)); // Alice Blue
 
@@ -47,26 +50,12 @@ public class WelcomePage extends JPanel {
         // Add action listeners to buttons
         loginButton.addActionListener(e -> {
             // Action when Login button is clicked
-            System.out.println("Login button clicked");
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            LoginPage loginPage = new LoginPage();
-            frame.setContentPane(loginPage);
-
-            // Repaint the frame
-            frame.revalidate();
-            frame.repaint();
+            navigator.navigateToLoginPage(this);
         });
 
         signUpButton.addActionListener(e -> {
             // Action when Sign Up button is clicked
-            System.out.println("Sign Up button clicked");
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            SignUpPage signUpPage = new SignUpPage();
-            frame.setContentPane(signUpPage);
-
-            // Repaint the frame
-            frame.revalidate();
-            frame.repaint();
+            navigator.navigateToSignUpPage(this);
         });
 
         // Add panels to the main panel

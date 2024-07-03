@@ -5,6 +5,8 @@ import GUI.common.AuthenticationController;
 import GUI.common.Button;
 import GUI.common.InputField;
 import GUI.common.Label;
+import GUI.common.Navigator;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,9 +15,11 @@ public class LoginPage extends JPanel {
     private InputField emailField;
     private InputField passwordField;
     private AuthenticationController authController;
+    private Navigator navigator;
 
     public LoginPage() {
         authController = new AuthenticationController();
+        navigator=new Navigator();
         setBackground(new Color(240, 248, 255)); 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -74,17 +78,7 @@ public class LoginPage extends JPanel {
 
         signUpButton.addActionListener(e -> {
             // Action when Sign Up button is clicked
-            
-            System.out.println("Login button clicked");
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            if (frame != null) {
-                SignUpPage signUpPage = new SignUpPage();
-                frame.setContentPane(signUpPage);
-                frame.revalidate();
-                frame.repaint();
-            } else {
-                System.err.println("Unable to find JFrame ancestor");
-            }
+            navigator.navigateToSignUpPage(this);
         });
 
         // Add button panel to central panel
