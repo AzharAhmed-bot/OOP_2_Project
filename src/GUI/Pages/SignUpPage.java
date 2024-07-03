@@ -1,27 +1,24 @@
 package GUI.Pages;
 
+import GUI.common.AuthenticationController;
 import GUI.common.Button;
 import GUI.common.InputField;
 import GUI.common.Label;
 
 import javax.swing.*;
-
-import Database.Connection.DatabaseConnection;
-import Database.Models.User;
-import Database.Tables.UsersTable;
-
 import java.awt.*;
 import java.sql.Timestamp;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 
 
 public class SignUpPage extends JPanel {
     private InputField nameField;
     private InputField emailField;
     private InputField passwordField;
+    private AuthenticationController authenticationController;
 
     public SignUpPage() {
+        authenticationController = new AuthenticationController();
         setBackground(new Color(240, 248, 255)); // Alice Blue
         setLayout(new BorderLayout());
 
@@ -75,36 +72,28 @@ public class SignUpPage extends JPanel {
             String email = emailField.getInputFieldText();
             String password = passwordField.getInputFieldText();
             Timestamp created_at = new Timestamp(System.currentTimeMillis());
-            try{
-                Connection connection=DatabaseConnection.getConnection();
-                UsersTable usersTable=new UsersTable(connection);
-                User user=new User(name,email,password,created_at);
-                usersTable.insert(user);
-            }catch(SQLException error){
-                error.printStackTrace();;
-            }finally{
-                JFrame frame= (JFrame) SwingUtilities.getWindowAncestor(this);
-                LoginPage loginPage=new LoginPage();
-                frame.setContentPane(loginPage);
-                // Repaint the frame
-                frame.revalidate();
-                frame.repaint();
-            }
+            authenticationController.handleSignUp(name, email, password, created_at);
 
         });
 
         loginButton.addActionListener(e->{
+
             System.out.println("Login button clicked");
-            JFrame frame= (JFrame) SwingUtilities.getWindowAncestor(this);
-            LoginPage loginPage=new LoginPage();
-            frame.setContentPane(loginPage);
-            // Repaint the frame
-            frame.revalidate();
-            frame.repaint();
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            if (frame != null) {
+                LoginPage loginPage = new LoginPage();
+                frame.setContentPane(loginPage);
+                frame.revalidate();
+                frame.repaint();
+            } else {
+                System.err.println("Unable to find JFrame ancestor");
+            }
         });
 
         // Add components to the main panel
         add(formPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
+
+ 
 }

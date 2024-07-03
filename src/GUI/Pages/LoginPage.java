@@ -1,27 +1,29 @@
 package GUI.Pages;
 
+import GUI.common.AuthenticationController;
+
 import GUI.common.Button;
 import GUI.common.InputField;
 import GUI.common.Label;
-
 import javax.swing.*;
-
-import Database.Connection.DatabaseConnection;
-import Database.Models.User;
-import Database.Tables.UsersTable;
-
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class LoginPage extends JPanel {
-    
+
     private InputField emailField;
     private InputField passwordField;
+    private AuthenticationController authController;
 
     public LoginPage() {
-        setBackground(new Color(240, 248, 255)); // Alice Blue
-        setLayout(new BorderLayout());
+        authController = new AuthenticationController();
+        setBackground(new Color(240, 248, 255)); 
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Create a panel to center and control the width of the form
+        JPanel centralPanel = new JPanel(new BorderLayout());
+        centralPanel.setBackground(new Color(240, 248, 255));
+        centralPanel.setPreferredSize(new Dimension(400, 300)); // Adjust size as needed
 
         // Title label
         Label titleLabel = new Label("<html><div style='text-align: center;'>Login to StudyBud</div></html>");
@@ -29,14 +31,14 @@ public class LoginPage extends JPanel {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setVerticalAlignment(SwingConstants.CENTER);
         titleLabel.setPreferredSize(new Dimension(350, 50));
-        add(titleLabel, BorderLayout.NORTH);
+        centralPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
-        JPanel formPanel = new JPanel(new GridLayout(3, 1, 10, 10));
-        formPanel.setBackground(new Color(240, 248, 255)); // Alice Blue
+        JPanel formPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        formPanel.setBackground(new Color(240, 248, 255));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Username field
+        // Email field
         Label emailLabel = new Label("Email:");
         emailLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         emailField = new InputField("text");
@@ -50,6 +52,9 @@ public class LoginPage extends JPanel {
         formPanel.add(passwordLabel);
         formPanel.add(passwordField);
 
+        // Add form panel to central panel
+        centralPanel.add(formPanel, BorderLayout.CENTER);
+
         // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(240, 248, 255));
@@ -62,39 +67,33 @@ public class LoginPage extends JPanel {
 
         // Add action listeners to buttons
         loginButton.addActionListener(e -> {
-            // Action when Login button is clicked
             String email = emailField.getInputFieldText();
             String password = passwordField.getInputFieldText();
-            try{
-                Connection connection=DatabaseConnection.getConnection();
-                UsersTable usersTable=new UsersTable(connection);
-                User user=usersTable.Login(email,password);
-                if(user!=null){
-                    System.out.println("Login successful,welcome "+ user.getName());
-                }
-                else{
-                    System.out.println("Login failed");
-                }
-            }catch(SQLException error){
-                error.printStackTrace();
-            }
-            
+            authController.handleLogin(email, password);
         });
 
         signUpButton.addActionListener(e -> {
             // Action when Sign Up button is clicked
-            System.out.println("Sign Up button clicked");
-            JFrame frame= (JFrame) SwingUtilities.getWindowAncestor(this);
-            SignUpPage signUpPage=new SignUpPage();
-            frame.setContentPane(signUpPage);
-            // Repaint the frame
-            frame.revalidate();
-            frame.repaint();
+            
+            System.out.println("Login button clicked");
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            if (frame != null) {
+                SignUpPage signUpPage = new SignUpPage();
+                frame.setContentPane(signUpPage);
+                frame.revalidate();
+                frame.repaint();
+            } else {
+                System.err.println("Unable to find JFrame ancestor");
+            }
         });
 
-        // Add components to the main panel
-        add(formPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
-    }
+        // Add button panel to central panel
+        centralPanel.add(buttonPanel, BorderLayout.SOUTH);
 
+        // Add central panel to the main panel
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(centralPanel, gbc);
+    }
 }
