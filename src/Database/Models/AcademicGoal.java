@@ -52,6 +52,9 @@ public class AcademicGoal {
     public String getStatus() {
         return status;
     }
+
+    
+
     public void printNewGoal(){
         System.out.println("Goal description: " + this.goal_description);
         System.out.println("Target date: " + this.target_date);

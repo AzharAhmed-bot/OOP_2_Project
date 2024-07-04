@@ -10,7 +10,7 @@ import Database.Common.DatabaseLogger;
 
 
 public abstract class BaseTable<T> implements DatabaseInterface<T> {
-    protected Connection connection;
+    protected static Connection connection;
 
     public BaseTable(Connection connection) {
         this.connection = connection;

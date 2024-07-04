@@ -51,4 +51,17 @@ public class Navigator {
             System.err.println("Unable to find JFrame ancestor");
         }
     }
+
+    public void navigateToSubjectPage(Component component,int userId, String userName,int goalCount){
+        System.out.println("Navigating to Subjects page");
+        JFrame frame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(frame != null){
+            SubjectsPage subjectsPage=new SubjectsPage(userId,userName,goalCount);
+            frame.setContentPane(subjectsPage);
+            frame.revalidate();
+            frame.repaint();
+        }else {
+            System.err.println("Unable to find JFrame ancestor");
+        }
+    }
 }

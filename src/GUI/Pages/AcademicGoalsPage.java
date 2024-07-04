@@ -2,6 +2,7 @@ package GUI.Pages;
 
 import Database.Models.AcademicGoal;
 import GUI.common.InputField;
+import GUI.common.Navigator;
 import GUI.common.AuthenticationController;
 import GUI.common.Button;
 
@@ -18,12 +19,16 @@ public class AcademicGoalsPage extends JPanel {
     private JComboBox<Integer> priorityLevelField;
     private InputField statusField;
     private JLabel errorLabel;
+    private JLabel titleLabel;
+    private int goalCount;
+    private Navigator navigator;
 
     public AcademicGoalsPage(){
 
     }
     public AcademicGoalsPage(int userId, String userName) {
         authController = new AuthenticationController();
+        navigator=new Navigator();
         setBackground(new Color(240, 248, 255));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -32,8 +37,10 @@ public class AcademicGoalsPage extends JPanel {
         centralPanel.setBackground(new Color(240, 248, 255));
         
 
+        // All goals per user
+        goalCount=authController.getTotalGoalsPerUser(userId);
         // Title label
-        JLabel titleLabel = new JLabel("<html><div style='text-align:center'>Welcome " + userName + ", set your academic goals! 😎 </div></html>");
+        titleLabel = new JLabel("<html><div style='text-align:center'>Welcome " + userName + ", set your academic goals! 😎 Current number of goals set is: "+goalCount +" </div></html>");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setPreferredSize(new Dimension(350, 50));
         centralPanel.add(titleLabel, BorderLayout.NORTH);
@@ -142,6 +149,8 @@ public class AcademicGoalsPage extends JPanel {
                     Date sqlDate = new Date(parsedDate.getTime());
                     AcademicGoal newGoal = authController.handleSaveGoals(userId, goalDescription, sqlDate, priorityLevel, status);
                     newGoal.printNewGoal();
+                    goalCount=authController.getTotalGoalsPerUser(userId);
+                    updateTitleLabel(userName);
                 } catch (ParseException ex) {
                     errorLabel.setText("Invalid date format (use yyyy-MM-dd)");
                 }finally{
@@ -155,7 +164,8 @@ public class AcademicGoalsPage extends JPanel {
         });
 
         proceedButton.addActionListener(e->{
-            System.out.println("Continue to next frame ");
+           navigator.navigateToSubjectPage(this,userId,userName,goalCount);
+
         });
 
         // Add central panel to the main panel
@@ -163,5 +173,9 @@ public class AcademicGoalsPage extends JPanel {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         add(centralPanel, gbc);
+    }
+
+    private void updateTitleLabel(String userName) {
+        titleLabel.setText("<html><div style='text-align:center'>Welcome " + userName + ", set your academic goals! 😎 Current number of goals set is: " + goalCount + " </div></html>");
     }
 }

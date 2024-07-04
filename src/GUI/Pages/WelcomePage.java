@@ -12,11 +12,13 @@ public class WelcomePage extends JPanel {
     SignUpPage signUpPage;
     LoginPage loginPage;
     AcademicGoalsPage academicGoalsPage;
+    SubjectsPage subjectsPage;
     public WelcomePage() {
         navigator=new Navigator();
         loginPage=new LoginPage();
         signUpPage=new SignUpPage();
         academicGoalsPage=new AcademicGoalsPage();
+        subjectsPage=new SubjectsPage();
 
         // Set background color for the main panel
         setBackground(new Color(240, 248, 255)); // Alice Blue
