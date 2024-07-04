@@ -27,4 +27,8 @@ public class Subject {
     public String getSubject_name() {
         return subject_name;
     }
+    public void print(){
+        System.out.println(subject_name+" "+user_id);
+
+    }
 }

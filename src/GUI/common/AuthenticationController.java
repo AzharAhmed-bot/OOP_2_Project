@@ -4,10 +4,9 @@ package GUI.common;
 import javax.swing.*;
 
 import Database.Models.AcademicGoal;
+import Database.Models.Subject;
 import Database.Models.User;
 import java.sql.*;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class AuthenticationController {
     private AuthenticationService authService;
@@ -52,6 +51,29 @@ public class AuthenticationController {
             return newAcademicGoal;
         }
         return null;
+    }
+    public Subject handleSaveSubject(String subjectName, int userId){
+        Subject newSubject=authService.newSubject(subjectName, userId);
+        if (newSubject != null) {
+            return newSubject;
+        }
+        return null;
+    }
+
+    public int getTotalGoalsPerUser(int userId){
+        int totalGoalCount=authService.getTotalGoalsPerUser(userId);
+        if(totalGoalCount != 0){
+            return totalGoalCount;
+        }
+        return 0;
+    }
+
+    public int getTotalSubjectsPerUser(int userId){
+        int totalSubjectCount=authService.getTotalSubjectsByUserId(userId);
+        if(totalSubjectCount != 0){
+            return totalSubjectCount;
+        }
+        return 0;
     }
   
     

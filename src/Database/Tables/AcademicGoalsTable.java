@@ -66,4 +66,21 @@ public class AcademicGoalsTable extends BaseTable<AcademicGoal> {
             throw new DatabaseException(errorMessage, e);
         }
     }
+
+    public int getTotalGoalsByUserId(int userId) {
+        String query = "SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE user_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error fetching total goals for user ID " + userId + " from " + TABLE_NAME;
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+        return 0;
+    }
 }
