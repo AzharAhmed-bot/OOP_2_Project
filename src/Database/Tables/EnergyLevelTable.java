@@ -3,8 +3,10 @@ package Database.Tables;
 import Database.Models.*;
 import Database.Common.*;
 
+
 import java.sql.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class EnergyLevelTable extends BaseTable<EnergyLevel> {
     public EnergyLevelTable(Connection connection) {
@@ -57,5 +59,30 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
             DatabaseLogger.logError(errorMessage, e);
             throw new DatabaseException(errorMessage, e);
         }
+    }
+
+    public ArrayList<Object> getTotalTimeScheduleByUserId(int userId) {
+        ArrayList<Object> timeList = new ArrayList<>();
+        String query = "SELECT time_of_day, energy_rating FROM EnergyLevel WHERE user_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Time timeOfDaySql = rs.getTime("time_of_day");
+                    int energy_rating = rs.getInt("energy_rating");
+                    LocalTime timeOfDay = timeOfDaySql.toLocalTime();
+                    EnergyLevel energyLevel = new EnergyLevel(userId, timeOfDay, energy_rating);  
+                    timeList.add(energyLevel); 
+                }
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error fetching total time schedule for user ID " + userId + " from EnergyLevel";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+        
+        return timeList;
     }
 }

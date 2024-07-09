@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import Database.Models.Subject;
 import Database.Common.*;
 
 public class SubjectTable extends BaseTable<Subject> {
     private static final String TABLE_NAME = "Subject";
-    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " (subject_name, user_id) VALUES (?,?)";
+    private static final String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " (subject_name, user_id,priority_level) VALUES (?,?,?)";
 
     public SubjectTable(Connection connection) {
         super(connection);
@@ -34,12 +35,13 @@ public class SubjectTable extends BaseTable<Subject> {
      * @return      a Subject entity mapped from the ResultSet
      * @throws SQLException if an error occurs while retrieving data from the ResultSet
      */
-    @Override
+    @Override 
     protected Subject mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         int user_id = rs.getInt("user_id");
         String subject_name = rs.getString("subject_name");
-        return new Subject(id, subject_name, user_id);
+        int priority_level=rs.getInt("priority_level");
+        return new Subject(id, subject_name, user_id,priority_level);
     }
 
     /**
@@ -53,6 +55,7 @@ public class SubjectTable extends BaseTable<Subject> {
             PreparedStatement ps = connection.prepareStatement(INSERT_QUERY);
             ps.setString(1, subject.getSubject_name());
             ps.setInt(2, subject.getUser_id());
+            ps.setInt(3, subject.getPriority_level());
             ps.executeUpdate();
             DatabaseLogger.logInfo("Subject inserted successfully");
         } catch (SQLException e) {
@@ -78,5 +81,30 @@ public class SubjectTable extends BaseTable<Subject> {
         }
         return 0;
     }
+
+    public ArrayList<Object> getAllSubjectsByUserId(int userId) {
+        ArrayList<Object> allSubjects = new ArrayList<>();
+        String query = "SELECT subject_name, priority_level FROM " + TABLE_NAME + " WHERE user_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String subjectName = rs.getString("subject_name");
+                    int priorityLevel = rs.getInt("priority_level");  
+                    Subject subject = new Subject(subjectName, userId, priorityLevel);
+                    allSubjects.add(subject);
+                }
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error fetching subjects for user ID " + userId + " from " + TABLE_NAME;
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+        
+        return allSubjects;
+    }
+    
     
 }

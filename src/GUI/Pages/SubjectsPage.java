@@ -36,7 +36,7 @@ public class SubjectsPage extends JPanel {
         centralPanel.setBackground(new Color(240, 248, 255));
 
         // Title label
-        titleLabel = new JLabel("<html><div style='text-align:center'>Welcome " + userName + ", set your subjects! 😎</div></html>");
+        titleLabel = new JLabel("<html><div style='text-align:center'>Welcome " + userName + ", set your subjects based on priority scale:! 😎</div></html>");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setPreferredSize(new Dimension(350, 50));
         centralPanel.add(titleLabel, BorderLayout.NORTH);
@@ -47,7 +47,7 @@ public class SubjectsPage extends JPanel {
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Number of subjects label
-        subjectCountLabel = new JLabel("Number of subjects you want to study:");
+        subjectCountLabel = new JLabel("Number of subjects you want to study based on priority scale:");
         subjectCountLabel.setFont(new Font("Arial", Font.BOLD, 14));
         GridBagConstraints gbcSubjectCountLabel = new GridBagConstraints();
         gbcSubjectCountLabel.anchor = GridBagConstraints.WEST;
@@ -86,7 +86,7 @@ public class SubjectsPage extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(240, 248, 255));
 
-        Button submitButton = new Button("Submit", new Color(70, 130, 180), Color.WHITE);
+        Button submitButton = new Button("Add subject", new Color(70, 130, 180), Color.WHITE);
         Button cancelButton = new Button("Cancel", new Color(220, 20, 60), Color.WHITE);
         buttonPanel.add(submitButton);
         buttonPanel.add(cancelButton);
@@ -128,6 +128,13 @@ public class SubjectsPage extends JPanel {
         JPanel subjectPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         subjectPanel.setBackground(new Color(240, 248, 255));
         JTextField subjectField = new JTextField(20);
+
+        // Priority Level ComboBox
+        JComboBox<Integer> priorityLevelField = new JComboBox<>();
+        for (int i = 1; i <= 5; i++) {
+            priorityLevelField.addItem(i);
+        }
+
         JButton saveButton = new JButton("Save");
         saveButton.setBackground(new Color(34, 139, 34));
         saveButton.setForeground(Color.WHITE);
@@ -135,11 +142,13 @@ public class SubjectsPage extends JPanel {
 
         saveButton.addActionListener(e -> {
             String subject = subjectField.getText();
+            int priorityLevel = (int) priorityLevelField.getSelectedItem();
             if (subject.isEmpty()) {
                 errorLabel.setText("Subject field cannot be empty!");
             } else {
                 try {
-                    Subject newSubject = authController.handleSaveSubject(subject, userId);
+                    System.out.println(priorityLevel);
+                    Subject newSubject = authController.handleSaveSubject(subject, userId, priorityLevel);
                     subjectCount = authController.getTotalSubjectsPerUser(userId);
                     newSubject.print();
                     updateTitle();
@@ -167,6 +176,7 @@ public class SubjectsPage extends JPanel {
         });
 
         subjectPanel.add(subjectField);
+        subjectPanel.add(priorityLevelField);
         subjectPanel.add(saveButton);
         subjectPanel.add(deleteButton);
         inputPanel.add(subjectPanel);

@@ -3,6 +3,7 @@ package GUI.Pages;
 import GUI.common.Navigator;
 import GUI.common.AuthenticationController;
 import GUI.common.Button;
+import GUI.common.Scheduler;
 
 import javax.swing.*;
 
@@ -15,6 +16,7 @@ public class EnergyRatingPage extends JPanel {
     private JLabel errorLabel;
     private JLabel titleLabel;
     private Navigator navigator;
+    private Scheduler scheduler;
 
     // ComboBoxes for energy levels and times
     private JComboBox<String> morningEnergyLevelComboBox;
@@ -33,6 +35,7 @@ public class EnergyRatingPage extends JPanel {
     public EnergyRatingPage(int userId, String userName) {
         authController = new AuthenticationController();
         navigator = new Navigator();
+        scheduler=new Scheduler(userId);
         setBackground(new Color(240, 248, 255));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -109,6 +112,8 @@ public class EnergyRatingPage extends JPanel {
 
         proceedButton.addActionListener(e -> {
             System.out.println("Navigating to next frame");
+            scheduler.printSchedule();
+            scheduler.printSubject();
         });
 
         // Add central panel to the main panel

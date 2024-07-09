@@ -8,6 +8,7 @@ import Database.Models.User;
 import Database.Tables.*;
 import java.sql.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 
 public class AuthenticationService {
@@ -47,9 +48,10 @@ public class AuthenticationService {
         return newAcademicGoal;
     }
 
-    public Subject newSubject(String subjectName,int userId){
-        Subject newSubject=new Subject(subjectName, userId);
+    public Subject newSubject(String subjectName,int userId,int priority_level){
+        Subject newSubject=new Subject(subjectName, userId,priority_level);
         subjectTable.insert(newSubject);
+        newSubject.print();
         return newSubject;
 
     }
@@ -65,5 +67,11 @@ public class AuthenticationService {
     public int getTotalSubjectsByUserId(int userId){
         return SubjectTable.getTotalSubjectsByUserId(userId);
     }
+    public ArrayList<Object> getAllSubjectsPerUser(int userId){
+        return  subjectTable.getAllSubjectsByUserId(userId);
+    }
 
+    public ArrayList<Object> getTotalTimeScedulePerUser(int userId ){
+        return energyLevelTable.getTotalTimeScheduleByUserId(userId);
+    }
 }
