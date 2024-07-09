@@ -13,7 +13,7 @@ public abstract class BaseTable<T> implements DatabaseInterface<T> {
     protected static Connection connection;
 
     public BaseTable(Connection connection) {
-        this.connection = connection;
+        BaseTable.connection = connection;
     }
 
     protected abstract String getTableName();

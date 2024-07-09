@@ -4,9 +4,12 @@ package GUI.common;
 import javax.swing.*;
 
 import Database.Models.AcademicGoal;
+import Database.Models.EnergyLevel;
 import Database.Models.Subject;
 import Database.Models.User;
 import java.sql.*;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class AuthenticationController {
     private AuthenticationService authService;
@@ -52,10 +55,20 @@ public class AuthenticationController {
         }
         return null;
     }
-    public Subject handleSaveSubject(String subjectName, int userId){
-        Subject newSubject=authService.newSubject(subjectName, userId);
+    public Subject handleSaveSubject(String subjectName, int userId,int priority_level){
+        Subject newSubject=authService.newSubject(subjectName, userId,priority_level);
+        ;
         if (newSubject != null) {
+            newSubject.print();
             return newSubject;
+        }
+        return null;
+    }
+
+    public EnergyLevel handleSaveEnergyLevel(int userId,LocalTime timeOfDay,int energyRating){
+        EnergyLevel newEnergyLevel=authService.newEnergyLevel(userId, timeOfDay, energyRating);
+        if(newEnergyLevel !=null){
+            return newEnergyLevel;
         }
         return null;
     }
@@ -74,6 +87,26 @@ public class AuthenticationController {
             return totalSubjectCount;
         }
         return 0;
+    }
+    
+    public ArrayList<Object> getTotalScheduleTimePerUser(int userId){
+        ArrayList<Object> totalTScheduleTime=authService.getTotalTimeScedulePerUser(userId);
+        if(totalTScheduleTime.size()>0){
+            return totalTScheduleTime;
+        }else{
+            return null;
+        }
+    }
+
+    public ArrayList<Object> getAllSubjectsPerUser(int userId){
+        ArrayList<Object> allSubjectName=authService.getAllSubjectsPerUser(userId);
+        if(allSubjectName.size()>0){
+            return allSubjectName;
+        }else{
+            return null;
+        }
+
+
     }
   
     

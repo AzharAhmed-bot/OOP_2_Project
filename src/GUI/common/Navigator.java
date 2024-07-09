@@ -64,4 +64,16 @@ public class Navigator {
             System.err.println("Unable to find JFrame ancestor");
         }
     }
+    public void navigateToEnergyRatingPage(Component component,int userId, String userName){
+        System.out.println("Navigating to Energy Rating page");
+        JFrame frame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(frame!=null){
+            EnergyRatingPage energyRatingPage=new EnergyRatingPage(userId,userName);
+            frame.setContentPane(energyRatingPage);
+            frame.revalidate();
+            frame.repaint();
+        }else{
+            System.err.println("Unable to find JFrame ancestor");
+        }
+    }
 }

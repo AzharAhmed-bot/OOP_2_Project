@@ -3,7 +3,10 @@ package Database.Tables;
 import Database.Models.*;
 import Database.Common.*;
 
+
 import java.sql.*;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class EnergyLevelTable extends BaseTable<EnergyLevel> {
     public EnergyLevelTable(Connection connection) {
@@ -17,7 +20,7 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
      */
     @Override
     protected String getTableName() {
-        return "EnergyLevels";
+        return "EnergyLevel";
     }
 
         /**
@@ -31,22 +34,23 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
     protected EnergyLevel mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         int user_id = rs.getInt("user_id");
-        String time_of_day = rs.getString("time_of_day");
+        Time time_of_day = rs.getTime("time_of_day");
+        LocalTime localTimeOfDay = time_of_day.toLocalTime(); // Convert java.sql.Time to LocalTime
         int energy_rating = rs.getInt("energy_rating");
-        return new EnergyLevel(id, user_id, time_of_day, energy_rating);
+        return new EnergyLevel(id, user_id, localTimeOfDay, energy_rating);
     }
-
+    
     /**
      * Inserts an EnergyLevel object into the EnergyLevels table.
      *
      * @param  energyLevel  the EnergyLevel object to insert
      */
     public void insert(EnergyLevel energyLevel) {
-        String query = "INSERT INTO EnergyLevels (user_id, time_of_day, energy_rating) VALUES (?, ?, ?)";
+        String query = "INSERT INTO EnergyLevel (user_id, time_of_day, energy_rating) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, energyLevel.getUser_id());
-            ps.setString(2, energyLevel.getTime_of_day());
+            ps.setTime(2, java.sql.Time.valueOf(energyLevel.getTime_of_day()));
             ps.setInt(3, energyLevel.getEnergy_rating());
             ps.executeUpdate();
             DatabaseLogger.logInfo("Energy Level inserted successfully");
@@ -55,5 +59,30 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
             DatabaseLogger.logError(errorMessage, e);
             throw new DatabaseException(errorMessage, e);
         }
+    }
+
+    public ArrayList<Object> getTotalTimeScheduleByUserId(int userId) {
+        ArrayList<Object> timeList = new ArrayList<>();
+        String query = "SELECT time_of_day, energy_rating FROM EnergyLevel WHERE user_id = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Time timeOfDaySql = rs.getTime("time_of_day");
+                    int energy_rating = rs.getInt("energy_rating");
+                    LocalTime timeOfDay = timeOfDaySql.toLocalTime();
+                    EnergyLevel energyLevel = new EnergyLevel(userId, timeOfDay, energy_rating);  
+                    timeList.add(energyLevel); 
+                }
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error fetching total time schedule for user ID " + userId + " from EnergyLevel";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+        
+        return timeList;
     }
 }
