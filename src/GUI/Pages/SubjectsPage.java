@@ -1,23 +1,23 @@
 package GUI.Pages;
 
-import javax.swing.*;
-import java.awt.*;
 import Database.Models.Subject;
 import GUI.common.AuthenticationController;
-import GUI.common.*;
 import GUI.common.Button;
+import GUI.common.Navigator;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class SubjectsPage extends JPanel {
-    private JComboBox<Integer> subjectCountField;
     private AuthenticationController authController;
+    private JComboBox<Integer> subjectCountField;
+    private JLabel subjectCountLabel;
+    private JLabel titleLabel;
+    private JPanel inputPanel;
     private int subjectCount;
     private int currentCount = 0;
-    private JPanel inputPanel;
-    private JButton submitButton;
-    private JButton cancelButton;
     private int userId;
     private String userName;
-    private JLabel subjectCountLabel;
     private Navigator navigator;
 
     public SubjectsPage() {}
@@ -26,7 +26,7 @@ public class SubjectsPage extends JPanel {
         this.userId = userId;
         this.userName = userName;
         authController = new AuthenticationController();
-        navigator=new Navigator();
+        navigator = new Navigator();
 
         setBackground(new Color(240, 248, 255));
         setLayout(new GridBagLayout());
@@ -35,54 +35,60 @@ public class SubjectsPage extends JPanel {
         JPanel centralPanel = new JPanel(new BorderLayout());
         centralPanel.setBackground(new Color(240, 248, 255));
 
-        // Number of subjects
+        // Title label
+        titleLabel = new JLabel("<html><div style='text-align:center'>Welcome " + userName + ", set your subjects! 😎</div></html>");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setPreferredSize(new Dimension(350, 50));
+        centralPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBackground(new Color(240, 248, 255));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Introduction label
-        subjectCountLabel = new JLabel("Number of subjects you want to study:(Current subject number "+subjectCount+"):");
+        // Number of subjects label
+        subjectCountLabel = new JLabel("Number of subjects you want to study:");
         subjectCountLabel.setFont(new Font("Arial", Font.BOLD, 14));
         GridBagConstraints gbcSubjectCountLabel = new GridBagConstraints();
         gbcSubjectCountLabel.anchor = GridBagConstraints.WEST;
         gbcSubjectCountLabel.insets = new Insets(0, 0, 10, 10);
         formPanel.add(subjectCountLabel, gbcSubjectCountLabel);
 
-        // Total subjects Label
+        // Subject count field
         subjectCountField = new JComboBox<>();
         for (int i = 1; i <= 10; i++) {
             subjectCountField.addItem(i);
         }
         GridBagConstraints gbcSubjectCountField = new GridBagConstraints();
         gbcSubjectCountField.fill = GridBagConstraints.HORIZONTAL;
+        gbcSubjectCountField.gridwidth = GridBagConstraints.REMAINDER;
         gbcSubjectCountField.insets = new Insets(0, 0, 10, 10);
         formPanel.add(subjectCountField, gbcSubjectCountField);
 
-        // Save button 
-        submitButton = new JButton("Submit");
-        submitButton.setBackground(new Color(70, 130, 180));
-        submitButton.setForeground(Color.WHITE);
-        submitButton.setFont(new Font("Arial", Font.BOLD, 14));
-        GridBagConstraints gbcSubmitButton = new GridBagConstraints();
-        gbcSubmitButton.gridwidth = GridBagConstraints.REMAINDER;
-        gbcSubmitButton.anchor = GridBagConstraints.CENTER;
-        formPanel.add(submitButton, gbcSubmitButton);
+        // Error Label
+        JLabel errorLabel = new JLabel("");
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        GridBagConstraints gbcErrorLabel = new GridBagConstraints();
+        gbcErrorLabel.anchor = GridBagConstraints.WEST;
+        gbcErrorLabel.insets = new Insets(0, 0, 10, 10);
+        formPanel.add(errorLabel, gbcErrorLabel);
 
-        centralPanel.add(formPanel, BorderLayout.NORTH);
+        centralPanel.add(formPanel, BorderLayout.CENTER);
 
-        // Adding new Subject input
+        // Input panel for new subjects
         inputPanel = new JPanel();
         inputPanel.setBackground(new Color(240, 248, 255));
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         centralPanel.add(inputPanel, BorderLayout.CENTER);
 
-        // Cancel button
+        // Button Panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(240, 248, 255));
-        cancelButton = new JButton("Cancel");
-        cancelButton.setBackground(new Color(220, 20, 60));
-        cancelButton.setForeground(Color.WHITE);
-        cancelButton.setFont(new Font("Arial", Font.BOLD, 14));
+
+        Button submitButton = new Button("Submit", new Color(70, 130, 180), Color.WHITE);
+        Button cancelButton = new Button("Cancel", new Color(220, 20, 60), Color.WHITE);
+        buttonPanel.add(submitButton);
         buttonPanel.add(cancelButton);
 
         centralPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -90,7 +96,7 @@ public class SubjectsPage extends JPanel {
         submitButton.addActionListener(e -> {
             subjectCount = (int) subjectCountField.getSelectedItem();
             if (currentCount < subjectCount) {
-                addSubjectInputField();
+                addSubjectInputField(errorLabel);
                 currentCount++;
             }
             updateTitle();
@@ -109,13 +115,8 @@ public class SubjectsPage extends JPanel {
         buttonPanel.add(prevButton);
         buttonPanel.add(proceedButton);
 
-        prevButton.addActionListener(e->{
-            navigator.navigateToAcademicGoalPage(this,userId,userName);
-        });
-
-        proceedButton.addActionListener(e->{
-            System.out.println("Proceed to next frame!");
-        });
+        prevButton.addActionListener(e -> navigator.navigateToAcademicGoalPage(this, userId, userName));
+        proceedButton.addActionListener(e -> navigator.navigateToEnergyRatingPage(this, userId, userName));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -123,7 +124,7 @@ public class SubjectsPage extends JPanel {
         add(centralPanel, gbc);
     }
 
-    private void addSubjectInputField() {
+    private void addSubjectInputField(JLabel errorLabel) {
         JPanel subjectPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         subjectPanel.setBackground(new Color(240, 248, 255));
         JTextField subjectField = new JTextField(20);
@@ -131,16 +132,18 @@ public class SubjectsPage extends JPanel {
         saveButton.setBackground(new Color(34, 139, 34));
         saveButton.setForeground(Color.WHITE);
         saveButton.setFont(new Font("Arial", Font.BOLD, 14));
+
         saveButton.addActionListener(e -> {
             String subject = subjectField.getText();
             if (subject.isEmpty()) {
-                System.err.println("Empty field!");
+                errorLabel.setText("Subject field cannot be empty!");
             } else {
                 try {
                     Subject newSubject = authController.handleSaveSubject(subject, userId);
                     subjectCount = authController.getTotalSubjectsPerUser(userId);
                     newSubject.print();
                     updateTitle();
+                    errorLabel.setText("");
                 } finally {
                     subjectField.setText("");
                     inputPanel.remove(subjectPanel);
@@ -172,6 +175,6 @@ public class SubjectsPage extends JPanel {
     }
 
     private void updateTitle() {
-        subjectCountLabel.setText("Number of subjects you want to study:Current subject number"+subjectCount+ "):");
+        subjectCountLabel.setText("Number of subjects you want to study: (Current subject number: " + subjectCount + ")");
     }
 }

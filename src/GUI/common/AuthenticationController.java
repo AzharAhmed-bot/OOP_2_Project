@@ -4,9 +4,11 @@ package GUI.common;
 import javax.swing.*;
 
 import Database.Models.AcademicGoal;
+import Database.Models.EnergyLevel;
 import Database.Models.Subject;
 import Database.Models.User;
 import java.sql.*;
+import java.time.LocalTime;
 
 public class AuthenticationController {
     private AuthenticationService authService;
@@ -56,6 +58,14 @@ public class AuthenticationController {
         Subject newSubject=authService.newSubject(subjectName, userId);
         if (newSubject != null) {
             return newSubject;
+        }
+        return null;
+    }
+
+    public EnergyLevel handleSaveEnergyLevel(int userId,LocalTime timeOfDay,int energyRating){
+        EnergyLevel newEnergyLevel=authService.newEnergyLevel(userId, timeOfDay, energyRating);
+        if(newEnergyLevel !=null){
+            return newEnergyLevel;
         }
         return null;
     }

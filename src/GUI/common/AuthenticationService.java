@@ -2,17 +2,20 @@ package GUI.common;
 
 import Database.Connection.DatabaseConnection;
 import Database.Models.AcademicGoal;
+import Database.Models.EnergyLevel;
 import Database.Models.Subject;
 import Database.Models.User;
 import Database.Tables.*;
-
-
 import java.sql.*;
+import java.time.LocalTime;
+
+
 public class AuthenticationService {
     private Connection connection;
     private UsersTable usersTable;
     private AcademicGoalsTable academicGoalsTable;
     private SubjectTable subjectTable;
+    private EnergyLevelTable energyLevelTable;
     
     public AuthenticationService(){
         try{
@@ -20,6 +23,7 @@ public class AuthenticationService {
         usersTable=new UsersTable(connection);
         academicGoalsTable=new AcademicGoalsTable(connection);
         subjectTable=new SubjectTable(connection);
+        energyLevelTable=new EnergyLevelTable(connection);
         }catch(SQLException E){
             E.printStackTrace();
         }
@@ -49,6 +53,11 @@ public class AuthenticationService {
         return newSubject;
 
     }
+    public EnergyLevel newEnergyLevel(int userId,LocalTime timeOfDay,int energyLevel ){
+        EnergyLevel newEnergyLevel=new EnergyLevel(userId, timeOfDay, energyLevel);
+        energyLevelTable.insert(newEnergyLevel);
+        return newEnergyLevel;
+    }
 
     public int getTotalGoalsPerUser(int userId){
         return academicGoalsTable.getTotalGoalsByUserId(userId);
@@ -56,4 +65,5 @@ public class AuthenticationService {
     public int getTotalSubjectsByUserId(int userId){
         return SubjectTable.getTotalSubjectsByUserId(userId);
     }
+
 }
