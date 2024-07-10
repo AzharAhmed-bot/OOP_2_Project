@@ -61,8 +61,8 @@ public class EnergyLevelTable extends BaseTable<EnergyLevel> {
         }
     }
 
-    public ArrayList<Object> getTotalTimeScheduleByUserId(int userId) {
-        ArrayList<Object> timeList = new ArrayList<>();
+    public ArrayList<EnergyLevel> getTotalTimeScheduleByUserId(int userId) {
+        ArrayList<EnergyLevel> timeList = new ArrayList<>();
         String query = "SELECT time_of_day, energy_rating FROM EnergyLevel WHERE user_id = ?";
         
         try (PreparedStatement ps = connection.prepareStatement(query)) {

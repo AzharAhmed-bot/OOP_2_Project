@@ -82,18 +82,19 @@ public class SubjectTable extends BaseTable<Subject> {
         return 0;
     }
 
-    public ArrayList<Object> getAllSubjectsByUserId(int userId) {
-        ArrayList<Object> allSubjects = new ArrayList<>();
-        String query = "SELECT subject_name, priority_level FROM " + TABLE_NAME + " WHERE user_id = ?";
+    public ArrayList<Subject> getAllSubjectsByUserId(int userId) {
+        ArrayList<Subject> allSubjects = new ArrayList<>();
+        String query = "SELECT id,subject_name, priority_level FROM " + TABLE_NAME + " WHERE user_id = ?";
         
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, userId);
             
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    int id=rs.getInt("id");
                     String subjectName = rs.getString("subject_name");
                     int priorityLevel = rs.getInt("priority_level");  
-                    Subject subject = new Subject(subjectName, userId, priorityLevel);
+                    Subject subject = new Subject(id,subjectName, userId, priorityLevel);
                     allSubjects.add(subject);
                 }
             }

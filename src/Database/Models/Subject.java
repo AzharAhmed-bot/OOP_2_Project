@@ -37,4 +37,12 @@ public class Subject {
         System.out.println(subject_name+" "+user_id+" "+priority_level);
 
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                ", subject_name='" + subject_name + '\'' +
+                ", priority_level=" + priority_level +
+                '}';
+    }
 }
