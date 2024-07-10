@@ -43,8 +43,6 @@ public class EnergyLevel {
     @Override
     public String toString() {
         return "EnergyLevel{" +
-                "id=" + id +
-                ", user_id=" + user_id +
                 ", time_of_day='" + time_of_day + '\'' +
                 ", energy_rating=" + energy_rating +
                 '}';

@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import Database.Models.AcademicGoal;
 import Database.Models.EnergyLevel;
+import Database.Models.StudySchedule;
+import Database.Models.StudySession;
 import Database.Models.Subject;
 import Database.Models.User;
 import java.sql.*;
@@ -73,6 +75,22 @@ public class AuthenticationController {
         return null;
     }
 
+    public StudySchedule handleSaveSchedule(int userId,Timestamp created_at, Timestamp updated_at){
+        StudySchedule newSchedule=authService.newSchedule(userId, created_at, updated_at);
+        if(newSchedule !=null){
+            return newSchedule;
+        }
+        return null;
+    }
+
+    public StudySession handleSaveStudySession(int schedule_id,int subject_id,int user_id,Date sessionDate,Time start_time,Time end_time,String status){
+        StudySession newStudySession=authService.newStudySession(schedule_id, subject_id, user_id, sessionDate, start_time, end_time, status);
+        if(newStudySession !=null){
+            return newStudySession;
+        }
+        return null;
+    }
+
     public int getTotalGoalsPerUser(int userId){
         int totalGoalCount=authService.getTotalGoalsPerUser(userId);
         if(totalGoalCount != 0){
@@ -89,8 +107,8 @@ public class AuthenticationController {
         return 0;
     }
     
-    public ArrayList<Object> getTotalScheduleTimePerUser(int userId){
-        ArrayList<Object> totalTScheduleTime=authService.getTotalTimeScedulePerUser(userId);
+    public ArrayList<EnergyLevel> getTotalScheduleTimePerUser(int userId){
+        ArrayList<EnergyLevel> totalTScheduleTime=authService.getTotalTimeScedulePerUser(userId);
         if(totalTScheduleTime.size()>0){
             return totalTScheduleTime;
         }else{
@@ -98,16 +116,12 @@ public class AuthenticationController {
         }
     }
 
-    public ArrayList<Object> getAllSubjectsPerUser(int userId){
-        ArrayList<Object> allSubjectName=authService.getAllSubjectsPerUser(userId);
+    public ArrayList<Subject> getAllSubjectsPerUser(int userId){
+        ArrayList<Subject> allSubjectName=authService.getAllSubjectsPerUser(userId);
         if(allSubjectName.size()>0){
             return allSubjectName;
         }else{
             return null;
         }
-
-
-    }
-  
-    
+    }  
 }

@@ -112,9 +112,15 @@ public class EnergyRatingPage extends JPanel {
 
         proceedButton.addActionListener(e -> {
             System.out.println("Navigating to next frame");
-            scheduler.printSchedule();
-            scheduler.printSubject();
+        
+            // Creating a new thread for the scheduler
+            Thread schedulerThread = new Thread(() -> {
+                scheduler.createSchedule();
+            });
+        
+            schedulerThread.start();
         });
+        
 
         // Add central panel to the main panel
         gbc.gridx = 0;

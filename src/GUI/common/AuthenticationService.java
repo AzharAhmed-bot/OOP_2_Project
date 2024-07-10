@@ -3,6 +3,8 @@ package GUI.common;
 import Database.Connection.DatabaseConnection;
 import Database.Models.AcademicGoal;
 import Database.Models.EnergyLevel;
+import Database.Models.StudySchedule;
+import Database.Models.StudySession;
 import Database.Models.Subject;
 import Database.Models.User;
 import Database.Tables.*;
@@ -17,6 +19,9 @@ public class AuthenticationService {
     private AcademicGoalsTable academicGoalsTable;
     private SubjectTable subjectTable;
     private EnergyLevelTable energyLevelTable;
+    private StudyScheduleTable studyScheduleTable;
+    private StudySessionTable studySessionTable;
+
     
     public AuthenticationService(){
         try{
@@ -25,6 +30,8 @@ public class AuthenticationService {
         academicGoalsTable=new AcademicGoalsTable(connection);
         subjectTable=new SubjectTable(connection);
         energyLevelTable=new EnergyLevelTable(connection);
+        studyScheduleTable=new StudyScheduleTable(connection);
+        studySessionTable=new StudySessionTable(connection);
         }catch(SQLException E){
             E.printStackTrace();
         }
@@ -61,17 +68,29 @@ public class AuthenticationService {
         return newEnergyLevel;
     }
 
+    public StudySchedule newSchedule(int userId,Timestamp created_at, Timestamp updated_at ){
+        StudySchedule newSchedule=new StudySchedule(userId, created_at, updated_at);
+        studyScheduleTable.insert(newSchedule);
+        return newSchedule;
+    }
+
+    public StudySession newStudySession(int schedule_id,int subject_id,int user_id,Date sessionDate,Time start_time,Time end_time,String status){
+        StudySession newStudySession=new StudySession(schedule_id, subject_id, user_id, sessionDate, start_time, end_time, status);
+        studySessionTable.insert(newStudySession);
+        return newStudySession;
+    }
+
     public int getTotalGoalsPerUser(int userId){
         return academicGoalsTable.getTotalGoalsByUserId(userId);
     }
     public int getTotalSubjectsByUserId(int userId){
         return SubjectTable.getTotalSubjectsByUserId(userId);
     }
-    public ArrayList<Object> getAllSubjectsPerUser(int userId){
+    public ArrayList<Subject> getAllSubjectsPerUser(int userId){
         return  subjectTable.getAllSubjectsByUserId(userId);
     }
 
-    public ArrayList<Object> getTotalTimeScedulePerUser(int userId ){
+    public ArrayList<EnergyLevel> getTotalTimeScedulePerUser(int userId ){
         return energyLevelTable.getTotalTimeScheduleByUserId(userId);
     }
 }
