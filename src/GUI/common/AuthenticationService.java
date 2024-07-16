@@ -93,4 +93,8 @@ public class AuthenticationService {
     public ArrayList<EnergyLevel> getTotalTimeScedulePerUser(int userId ){
         return energyLevelTable.getTotalTimeScheduleByUserId(userId);
     }
+
+    public ArrayList<StudySchedule> getAllStudySchedules(){
+        return studyScheduleTable.getAll();
+    }
 }

@@ -149,6 +149,7 @@ public class AcademicGoalsPage extends JPanel {
                     Date sqlDate = new Date(parsedDate.getTime());
                     AcademicGoal newGoal = authController.handleSaveGoals(userId, goalDescription, sqlDate, priorityLevel, status);
                     newGoal.printNewGoal();
+                    
                     goalCount=authController.getTotalGoalsPerUser(userId);
                     updateTitleLabel(userName);
                 } catch (ParseException ex) {

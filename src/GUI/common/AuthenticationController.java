@@ -77,10 +77,7 @@ public class AuthenticationController {
 
     public StudySchedule handleSaveSchedule(int userId,Timestamp created_at, Timestamp updated_at){
         StudySchedule newSchedule=authService.newSchedule(userId, created_at, updated_at);
-        if(newSchedule !=null){
-            return newSchedule;
-        }
-        return null;
+        return newSchedule;
     }
 
     public StudySession handleSaveStudySession(int schedule_id,int subject_id,int user_id,Date sessionDate,Time start_time,Time end_time,String status){
@@ -123,5 +120,13 @@ public class AuthenticationController {
         }else{
             return null;
         }
-    }  
+    } 
+    
+    public ArrayList<StudySchedule> getAllStudySchedules(){
+        ArrayList<StudySchedule> allStudySchedules=authService.getAllStudySchedules();
+        if(allStudySchedules.size()>0){
+            return allStudySchedules;
+        }
+        return null;
+    }
 }
