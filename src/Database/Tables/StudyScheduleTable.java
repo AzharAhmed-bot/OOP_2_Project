@@ -47,20 +47,26 @@ public class StudyScheduleTable extends BaseTable<StudySchedule>{
      *
      * @param  studySchedule  the StudySchedule object to insert
      */
-    public void insert(StudySchedule studySchedule){
-        try{
-            PreparedStatement ps=connection.prepareStatement(INSERT_QUERY);
-            ps.setInt(1,studySchedule.getUser_id());
-            ps.setTimestamp(2,studySchedule.getCreated_at());
-            ps.setTimestamp(3,studySchedule.getUpdated_at());
+    public void insert(StudySchedule studySchedule) {
+        
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, studySchedule.getUser_id());
+            ps.setTimestamp(2, studySchedule.getCreated_at());
+            ps.setTimestamp(3, studySchedule.getUpdated_at());
             ps.executeUpdate();
-            DatabaseLogger.logInfo("Study Schedule inserted successfully");
-        }catch(SQLException e){
-            String errorMessage="Error inserting Study Schedule";
-            DatabaseLogger.logError(errorMessage,e);
-            throw new DatabaseException(errorMessage,e);
+    
+            // Retrieve the generated key and set it in the studySchedule object
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                studySchedule.setId(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error inserting new record into StudySchedule";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
         }
     }
+    
     
 
 }

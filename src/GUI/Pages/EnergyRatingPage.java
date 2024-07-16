@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.time.LocalTime;
+import java.sql.Timestamp;
 
 public class EnergyRatingPage extends JPanel {
     AuthenticationController authController;
@@ -114,11 +115,10 @@ public class EnergyRatingPage extends JPanel {
             System.out.println("Navigating to next frame");
         
             // Creating a new thread for the scheduler
-            Thread schedulerThread = new Thread(() -> {
-                scheduler.createSchedule();
-            });
-        
+            Thread schedulerThread = new Thread(scheduler);
             schedulerThread.start();
+           
+
         });
         
 

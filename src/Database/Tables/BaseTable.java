@@ -2,7 +2,6 @@ package Database.Tables;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import Database.Common.DatabaseException;
 import Database.Common.DatabaseInterface;
@@ -26,8 +25,8 @@ public abstract class BaseTable<T> implements DatabaseInterface<T> {
      * @throws DatabaseException if there is an error executing the SQL query
      */
     @Override
-    public List<T> getAll() {
-        List<T> entities = new ArrayList<>();
+    public ArrayList<T> getAll() {
+        ArrayList<T> entities = new ArrayList<>();
         String query = "SELECT * FROM " + getTableName();
         try {
             PreparedStatement ps = connection.prepareStatement(query);

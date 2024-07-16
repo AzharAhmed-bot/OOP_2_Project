@@ -22,6 +22,9 @@ public class StudySchedule {
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -41,7 +44,7 @@ public class StudySchedule {
 
     @Override
     public String toString() {
-        return "StudySchedule{" +
+        return "StudySchedule:{" +
                 "id=" + id +
                 ", user_id=" + user_id +
                 ", created_at=" + created_at +
