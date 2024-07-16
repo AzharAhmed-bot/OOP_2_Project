@@ -37,6 +37,37 @@ public class AuthenticationService {
         }
         
     }
+    private BaseTable getTableByName(String tableName) {
+        switch (tableName) {
+            case "users":
+                return usersTable;
+            case "academic_goals":
+                return academicGoalsTable;
+            case "subjects":
+                return subjectTable;
+            case "energy_levels":
+                return energyLevelTable;
+            case "study_schedules":
+                return studyScheduleTable;
+            case "study_sessions":
+                return studySessionTable;
+            default:
+                return null;
+        }
+    }
+    public void updateRecord(String tableName, int id, String column, Object value) {
+        try {
+            BaseTable table = getTableByName(tableName);
+            if (table != null) {
+                table.update(id, column, value);
+            } else {
+                throw new IllegalArgumentException("Invalid table name: " + tableName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public User authenticate(String email, String password) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         UsersTable usersTable = new UsersTable(connection);
@@ -55,6 +86,7 @@ public class AuthenticationService {
         return newAcademicGoal;
     }
 
+     
     public Subject newSubject(String subjectName,int userId,int priority_level){
         Subject newSubject=new Subject(subjectName, userId,priority_level);
         subjectTable.insert(newSubject);
@@ -85,6 +117,10 @@ public class AuthenticationService {
     }
     public int getTotalSubjectsByUserId(int userId){
         return SubjectTable.getTotalSubjectsByUserId(userId);
+    }
+
+    public ArrayList<AcademicGoal> getAllAcademicGoalsPerUser(int userId){
+        return academicGoalsTable.getAllAcademicGoalsPerUser(userId);
     }
     public ArrayList<Subject> getAllSubjectsPerUser(int userId){
         return  subjectTable.getAllSubjectsByUserId(userId);

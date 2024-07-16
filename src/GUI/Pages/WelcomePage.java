@@ -14,6 +14,8 @@ public class WelcomePage extends JPanel {
     AcademicGoalsPage academicGoalsPage;
     SubjectsPage subjectsPage;
     EnergyRatingPage energyRatingPage;
+    MainPage mainPage;
+    MyAcademicGoalsPage myAcademicGoalsPage;
     public WelcomePage() {
         navigator=new Navigator();
         loginPage=new LoginPage();
@@ -21,6 +23,9 @@ public class WelcomePage extends JPanel {
         academicGoalsPage=new AcademicGoalsPage();
         subjectsPage=new SubjectsPage();
         energyRatingPage=new EnergyRatingPage();
+        mainPage=new MainPage();
+        myAcademicGoalsPage=new MyAcademicGoalsPage();
+
 
         // Set background color for the main panel
         setBackground(new Color(240, 248, 255)); // Alice Blue
