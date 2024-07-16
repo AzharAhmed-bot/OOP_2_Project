@@ -117,7 +117,8 @@ public class EnergyRatingPage extends JPanel {
             // Creating a new thread for the scheduler
             Thread schedulerThread = new Thread(scheduler);
             schedulerThread.start();
-           
+            //    Navigate to main Page
+            navigator.navigateToMainPage(this, userId, userName);
 
         });
         

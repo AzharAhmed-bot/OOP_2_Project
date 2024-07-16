@@ -76,4 +76,26 @@ public class Navigator {
             System.err.println("Unable to find JFrame ancestor");
         }
     }
+
+    public void navigateToMainPage(Component component,int userId,String userName){
+        System.out.println("Navigating to Main Page");
+        JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(currentFrame!=null){
+            MainPage mainPage=new MainPage(userId, userName);
+            currentFrame.setContentPane(mainPage);
+            currentFrame.revalidate();
+            currentFrame.repaint();
+        }
+    }
+
+    public void navigateToMyAcademicGoalsPage(Component component,int userId,String userName){
+        System.out.println("Navigating to My Academic GoalsPage Page");
+        JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(currentFrame!=null){
+            MyAcademicGoalsPage myAcademicGoalsPage=new MyAcademicGoalsPage(userId,userName);
+            currentFrame.setContentPane(myAcademicGoalsPage);
+            currentFrame.revalidate();
+            currentFrame.repaint();
+        }
+    }
 }

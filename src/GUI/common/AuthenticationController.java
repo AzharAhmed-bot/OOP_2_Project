@@ -22,6 +22,9 @@ public class AuthenticationController {
         
     }
 
+
+    
+
     public User handleSignUp(String name, String email, String password, Timestamp createdAt) throws SQLException {
         User newUser = authService.newUser(name, email, password, createdAt);
         if (newUser != null) {
@@ -57,6 +60,11 @@ public class AuthenticationController {
         }
         return null;
     }
+    public void handleUpdate(String tableName, int id, String column, Object value) {
+        authService.updateRecord(tableName, id, column, value);
+    }
+
+
     public Subject handleSaveSubject(String subjectName, int userId,int priority_level){
         Subject newSubject=authService.newSubject(subjectName, userId,priority_level);
         ;
@@ -103,6 +111,16 @@ public class AuthenticationController {
         }
         return 0;
     }
+
+    public ArrayList<AcademicGoal> getAllAcademicGoalsPerUser(int userId){
+        ArrayList<AcademicGoal> allGoals=authService.getAllAcademicGoalsPerUser(userId);
+        if(allGoals.size()>0){
+            return allGoals;
+        }else{
+            return null;
+        }
+    }
+
     
     public ArrayList<EnergyLevel> getTotalScheduleTimePerUser(int userId){
         ArrayList<EnergyLevel> totalTScheduleTime=authService.getTotalTimeScedulePerUser(userId);
@@ -129,4 +147,5 @@ public class AuthenticationController {
         }
         return null;
     }
+
 }

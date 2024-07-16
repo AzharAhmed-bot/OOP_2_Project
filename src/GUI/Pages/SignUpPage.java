@@ -32,7 +32,7 @@ public class SignUpPage extends JPanel {
         // Create a panel to center and control the width of the form
         JPanel centralPanel = new JPanel(new BorderLayout());
         centralPanel.setBackground(new Color(240, 248, 255));
-        centralPanel.setPreferredSize(new Dimension(400, 300)); // Adjust size as needed
+        centralPanel.setPreferredSize(new Dimension(600, 500)); 
 
         // Title label
         Label titleLabel = new Label("<html><div style='text-align: center;'>Sign Up for StudyBud</div></html>");
