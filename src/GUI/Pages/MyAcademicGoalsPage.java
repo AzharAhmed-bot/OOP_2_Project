@@ -3,12 +3,10 @@ package GUI.Pages;
 import GUI.common.AuthenticationController;
 import GUI.common.Navigator;
 import GUI.common.Sidebar;
+import Database.Models.AcademicGoal;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import Database.Models.AcademicGoal;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +37,13 @@ public class MyAcademicGoalsPage extends JPanel {
     }
 
     private void initializeComponents() {
+        // Title
+        JLabel titleLabel = new JLabel("My Academic Goals", JLabel.CENTER);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        add(titleLabel, BorderLayout.NORTH);
+
+        // Table settings
         String[] columnNames = {"User", "Goal Description", "Target Date", "Priority Level", "Status", "Actions"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
@@ -47,8 +52,21 @@ public class MyAcademicGoalsPage extends JPanel {
             }
         };
 
+        // Table customization
+        table.setFillsViewportHeight(true);
+        table.setRowHeight(30);
+        table.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));
+
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(scrollPane, BorderLayout.CENTER);
+
+        // Footer with user info
+        JLabel footerLabel = new JLabel("Logged in as: " + userName, JLabel.CENTER);
+        footerLabel.setFont(new Font("Serif", Font.ITALIC, 14));
+        footerLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        add(footerLabel, BorderLayout.SOUTH);
     }
 
     private void loadAcademicGoals() {

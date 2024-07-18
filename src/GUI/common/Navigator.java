@@ -89,10 +89,20 @@ public class Navigator {
     }
 
     public void navigateToMyAcademicGoalsPage(Component component,int userId,String userName){
-        System.out.println("Navigating to My Academic GoalsPage Page");
+        System.out.println("Navigating to My Academic Goals Page Page");
         JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
         if(currentFrame!=null){
             MyAcademicGoalsPage myAcademicGoalsPage=new MyAcademicGoalsPage(userId,userName);
+            currentFrame.setContentPane(myAcademicGoalsPage);
+            currentFrame.revalidate();
+            currentFrame.repaint();
+        }
+    }
+    public void navigateToMySchedulesPage(Component component,int userId,String userName){
+        System.out.println("Navigating to My Schedules age Page");
+        JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(currentFrame!=null){
+            MySchedulePage myAcademicGoalsPage=new MySchedulePage(userId,userName);
             currentFrame.setContentPane(myAcademicGoalsPage);
             currentFrame.revalidate();
             currentFrame.repaint();

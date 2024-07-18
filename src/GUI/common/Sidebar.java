@@ -41,7 +41,7 @@ public class Sidebar extends JPanel {
                     navigator.navigateToMyAcademicGoalsPage(this, userId, userName);
                     break;
                 case "MySchedule":
-                    // Add navigation to MySchedulePage
+                    navigator.navigateToMySchedulesPage(this, userId, userName);
                     break;
                 case "Profile":
                     // Add navigation to ProfilePage

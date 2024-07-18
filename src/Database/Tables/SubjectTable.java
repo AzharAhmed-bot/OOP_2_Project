@@ -106,6 +106,8 @@ public class SubjectTable extends BaseTable<Subject> {
         
         return allSubjects;
     }
+
+    
     
     
 }
