@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Time;
-
+import java.util.ArrayList;
 
 import Database.Common.DatabaseException;
 import Database.Common.DatabaseLogger;
@@ -72,6 +72,26 @@ public class StudySessionTable extends BaseTable<StudySession> {
             DatabaseLogger.logInfo("Study Session inserted successfully");
         } catch (SQLException e) {
             String errorMessage = "Error inserting Study Session";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+    }
+
+    public ArrayList<StudySession> getSessionBySchedule(int schedule_id){
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE schedule_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, schedule_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                ArrayList<StudySession> sessions = new ArrayList<>();
+                while (rs.next()) {
+                    StudySession session = mapResultSetToEntity(rs);
+                    sessions.add(session);
+                }
+                return sessions;
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error fetching Study Session";
             DatabaseLogger.logError(errorMessage, e);
             throw new DatabaseException(errorMessage, e);
         }

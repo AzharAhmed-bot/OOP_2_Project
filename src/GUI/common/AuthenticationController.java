@@ -154,6 +154,15 @@ public class AuthenticationController {
         }
         return null;
     }
+
+    public ArrayList<StudySession> getStudySessionsByScheduleId(int schedule_id){
+        ArrayList<StudySession> allStudySessions=authService.getStudySessionsByScheduleId(schedule_id);
+        if(allStudySessions.size()>0){
+            return allStudySessions;
+        }
+        return null;
+    }
+
     public User getAllUserInfoById(int user_id){
         return authService.getAllUserInfoById(user_id);
     }

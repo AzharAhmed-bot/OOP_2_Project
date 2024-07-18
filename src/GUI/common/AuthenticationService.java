@@ -138,6 +138,10 @@ public class AuthenticationService {
         return studySessionTable.getAll();
     }
 
+    public ArrayList<StudySession> getStudySessionsByScheduleId(int schedule_id){
+        return studySessionTable.getSessionBySchedule(schedule_id);
+    }
+
     public User getAllUserInfoById(int user_id){
         return usersTable.getById(user_id);
     }
