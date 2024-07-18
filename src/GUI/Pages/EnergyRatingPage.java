@@ -10,7 +10,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.time.LocalTime;
-import java.sql.Timestamp;
 
 public class EnergyRatingPage extends JPanel {
     AuthenticationController authController;
