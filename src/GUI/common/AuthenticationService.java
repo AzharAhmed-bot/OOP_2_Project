@@ -138,13 +138,17 @@ public class AuthenticationService {
         return studySessionTable.getAll();
     }
 
+    public User getAllUserInfoById(int user_id){
+        return usersTable.getById(user_id);
+    }
+
     public String  getSubjectNameFromSession(int subject_id){
         Subject mySubject= subjectTable.getById(subject_id);
         return mySubject.getSubject_name();
     }
 
     public boolean deleteSessionByScheduleId(int schedule_id){
-        
+
         return studySessionTable.deleteByScheduleId(schedule_id);
     }
 }

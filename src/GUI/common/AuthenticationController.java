@@ -154,6 +154,9 @@ public class AuthenticationController {
         }
         return null;
     }
+    public User getAllUserInfoById(int user_id){
+        return authService.getAllUserInfoById(user_id);
+    }
 
     public String getSubjectNameFromSession(int subject_id){
         return authService.getSubjectNameFromSession(subject_id);
