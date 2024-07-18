@@ -17,6 +17,7 @@ public class WelcomePage extends JPanel {
     MainPage mainPage;
     MyAcademicGoalsPage myAcademicGoalsPage;
     MySchedulePage mySchedulePage;
+    MyProfilePage myProfilePage;
     public WelcomePage() {
         navigator=new Navigator();
         loginPage=new LoginPage();
@@ -27,6 +28,7 @@ public class WelcomePage extends JPanel {
         mainPage=new MainPage();
         myAcademicGoalsPage=new MyAcademicGoalsPage();
         mySchedulePage=new MySchedulePage();
+        myProfilePage=new MyProfilePage();
 
 
         // Set background color for the main panel

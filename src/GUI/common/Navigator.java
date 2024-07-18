@@ -89,7 +89,7 @@ public class Navigator {
     }
 
     public void navigateToMyAcademicGoalsPage(Component component,int userId,String userName){
-        System.out.println("Navigating to My Academic Goals Page Page");
+        System.out.println("Navigating to My Academic Goals Page");
         JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
         if(currentFrame!=null){
             MyAcademicGoalsPage myAcademicGoalsPage=new MyAcademicGoalsPage(userId,userName);
@@ -99,10 +99,32 @@ public class Navigator {
         }
     }
     public void navigateToMySchedulesPage(Component component,int userId,String userName){
-        System.out.println("Navigating to My Schedules age Page");
+        System.out.println("Navigating to My Schedules  Page");
         JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
         if(currentFrame!=null){
             MySchedulePage myAcademicGoalsPage=new MySchedulePage(userId,userName);
+            currentFrame.setContentPane(myAcademicGoalsPage);
+            currentFrame.revalidate();
+            currentFrame.repaint();
+        }
+    }
+
+    public void navigateToMyProfilePage(Component component,int userId,String userName){
+        System.out.println("Navigating to My Profile  Page");
+        JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(currentFrame!=null){
+            MyProfilePage myAcademicGoalsPage=new MyProfilePage(userId,userName);
+            currentFrame.setContentPane(myAcademicGoalsPage);
+            currentFrame.revalidate();
+            currentFrame.repaint();
+        }
+    }
+
+    public void navigateToWelcomePage(Component component,int userId,String userName){
+        System.out.println("Navigating to My Profile  Page");
+        JFrame currentFrame=(JFrame) SwingUtilities.getWindowAncestor(component);
+        if(currentFrame!=null){
+            WelcomePage myAcademicGoalsPage=new WelcomePage();
             currentFrame.setContentPane(myAcademicGoalsPage);
             currentFrame.revalidate();
             currentFrame.repaint();
