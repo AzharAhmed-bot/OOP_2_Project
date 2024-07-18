@@ -1,1 +1,3 @@
-*.class
+
+# Ignoring classs files
+*.class 

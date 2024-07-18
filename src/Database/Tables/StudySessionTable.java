@@ -76,4 +76,26 @@ public class StudySessionTable extends BaseTable<StudySession> {
             throw new DatabaseException(errorMessage, e);
         }
     }
+
+    public boolean deleteByScheduleId(int schedule_id){
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE schedule_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, schedule_id);
+            int rowsAffected=ps.executeUpdate();
+            if(rowsAffected>0){
+                DatabaseLogger.logInfo("Study Session deleted successfully");
+                return true;
+            }else{
+                return false;
+            }   
+            
+        } catch (SQLException e) {
+            String errorMessage = "Error deleting Study Session";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+            
+        }
+        
+    }
 }

@@ -147,5 +147,22 @@ public class AuthenticationController {
         }
         return null;
     }
+    public ArrayList<StudySession> getAllStudySessions(){
+        ArrayList<StudySession> allStudySessions=authService.getAllStudySessions();
+        if(allStudySessions.size()>0){
+            return allStudySessions;
+        }
+        return null;
+    }
+
+    public String getSubjectNameFromSession(int subject_id){
+        return authService.getSubjectNameFromSession(subject_id);
+    }
+
+    public boolean deleteSessionByScheduleId(int schedule_id){
+        return authService.deleteSessionByScheduleId(schedule_id);
+    }
+
+    
 
 }

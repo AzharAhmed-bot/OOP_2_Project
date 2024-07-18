@@ -133,4 +133,18 @@ public class AuthenticationService {
     public ArrayList<StudySchedule> getAllStudySchedules(){
         return studyScheduleTable.getAll();
     }
+
+    public ArrayList<StudySession> getAllStudySessions(){
+        return studySessionTable.getAll();
+    }
+
+    public String  getSubjectNameFromSession(int subject_id){
+        Subject mySubject= subjectTable.getById(subject_id);
+        return mySubject.getSubject_name();
+    }
+
+    public boolean deleteSessionByScheduleId(int schedule_id){
+        
+        return studySessionTable.deleteByScheduleId(schedule_id);
+    }
 }
