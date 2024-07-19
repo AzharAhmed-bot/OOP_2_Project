@@ -145,4 +145,20 @@ public class AuthenticationService {
                 break;
         }
     }
+
+    public void updateUserInfo(int id, String column,Object value){
+        switch(column){
+            case "name":
+                usersTable.update(id, "name", value);
+                break;
+            case "email":
+                usersTable.update(id, "email", value);
+                break;
+            case "password":
+                usersTable.update(id, "password", value);
+                break;
+            default:
+                break;
+        }
+    }
 }
