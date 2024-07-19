@@ -60,10 +60,6 @@ public class AuthenticationController {
         }
         return null;
     }
-    public void handleUpdate(String tableName, int id, String column, Object value) {
-        authService.updateRecord(tableName, id, column, value);
-    }
-
 
     public Subject handleSaveSubject(String subjectName, int userId,int priority_level){
         Subject newSubject=authService.newSubject(subjectName, userId,priority_level);
@@ -175,6 +171,9 @@ public class AuthenticationController {
         return authService.deleteSessionByScheduleId(schedule_id);
     }
 
+    public void updateAcademiGoal(int id, String column,Object sqlDate){
+        authService.updateAcademiGoal(id, column, sqlDate);
+    }
     
 
 }

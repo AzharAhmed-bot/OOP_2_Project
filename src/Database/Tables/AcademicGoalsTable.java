@@ -87,16 +87,17 @@ public class AcademicGoalsTable extends BaseTable<AcademicGoal> {
 
     public ArrayList<AcademicGoal> getAllAcademicGoalsPerUser(int userId){
         ArrayList<AcademicGoal> allgoals=new ArrayList<>();
-        String query="SELECT goal_description,target_date,priority_level,status FROM "+TABLE_NAME+" WHERE user_id = ?";
+        String query="SELECT id,goal_description,target_date,priority_level,status FROM "+TABLE_NAME+" WHERE user_id = ?";
         try(PreparedStatement ps=connection.prepareStatement(query)){
             ps.setInt(1, userId);
             try(ResultSet rs=ps.executeQuery()){
                 while(rs.next()){
+                    int id = rs.getInt("id");
                     String goal_description=rs.getString("goal_description");
                     Date target_date=rs.getDate("target_date");
                     int priority_level=rs.getInt("priority_level");
                     String status=rs.getString("status");
-                    AcademicGoal academicGoal=new AcademicGoal(userId,goal_description,target_date,priority_level,status);
+                    AcademicGoal academicGoal=new AcademicGoal(id,userId,goal_description,target_date,priority_level,status);
                     allgoals.add(academicGoal);
                 }
             }
