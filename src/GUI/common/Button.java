@@ -12,6 +12,7 @@ public class Button extends JPanel {
         button = new JButton(buttonText);
         button.setBackground(background);
         button.setForeground(foreground);
+        button.setFocusPainted(false);
         button.setPreferredSize(new Dimension(100, 30)); 
         add(button, BorderLayout.CENTER);
     }
@@ -23,4 +24,6 @@ public class Button extends JPanel {
     public String getButtonText() {
         return button.getText();
     }
+
+
 }

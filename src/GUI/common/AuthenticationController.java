@@ -171,8 +171,12 @@ public class AuthenticationController {
         return authService.deleteSessionByScheduleId(schedule_id);
     }
 
-    public void updateAcademiGoal(int id, String column,Object sqlDate){
-        authService.updateAcademiGoal(id, column, sqlDate);
+    public void updateAcademiGoal(int id, String column,Object value){
+        authService.updateAcademiGoal(id, column, value);
+    }
+
+    public void updateUserInfo(int id,String column,Object value){
+        authService.updateUserInfo(id, column, value);
     }
     
 
