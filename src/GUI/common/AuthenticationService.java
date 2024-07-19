@@ -37,36 +37,7 @@ public class AuthenticationService {
         }
         
     }
-    private BaseTable getTableByName(String tableName) {
-        switch (tableName) {
-            case "users":
-                return usersTable;
-            case "academic_goals":
-                return academicGoalsTable;
-            case "subjects":
-                return subjectTable;
-            case "energy_levels":
-                return energyLevelTable;
-            case "study_schedules":
-                return studyScheduleTable;
-            case "study_sessions":
-                return studySessionTable;
-            default:
-                return null;
-        }
-    }
-    public void updateRecord(String tableName, int id, String column, Object value) {
-        try {
-            BaseTable table = getTableByName(tableName);
-            if (table != null) {
-                table.update(id, column, value);
-            } else {
-                throw new IllegalArgumentException("Invalid table name: " + tableName);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     
     public User authenticate(String email, String password) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
@@ -154,5 +125,24 @@ public class AuthenticationService {
     public boolean deleteSessionByScheduleId(int schedule_id){
 
         return studySessionTable.deleteByScheduleId(schedule_id);
+    }
+
+    public void updateAcademiGoal(int id, String column,Object value){
+        switch(column){
+            case "goal_description":
+                academicGoalsTable.update(id, "goal_description", value);
+                break;
+            case "target_date":
+                academicGoalsTable.update(id, "target_date", value);
+                break;
+            case "priority_level":
+                academicGoalsTable.update(id, "priority_level", value);
+                break;
+            case "status":
+                academicGoalsTable.update(id, "status", value);
+                break;
+            default:
+                break;
+        }
     }
 }
