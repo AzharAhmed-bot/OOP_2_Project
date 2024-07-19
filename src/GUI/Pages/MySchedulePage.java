@@ -59,7 +59,7 @@ public class MySchedulePage extends JPanel {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        ArrayList<StudySession> sessions = authController.getAllStudySessions();
+        ArrayList<StudySession> sessions = authController.getStudySessionsByUserId(userId);
         Map<Integer, ArrayList<StudySession>> sessionsByScheduleId = groupSessionsByScheduleId(sessions);
 
         for (Map.Entry<Integer, ArrayList<StudySession>> entry : sessionsByScheduleId.entrySet()) {
