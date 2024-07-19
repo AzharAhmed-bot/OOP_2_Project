@@ -97,6 +97,26 @@ public class StudySessionTable extends BaseTable<StudySession> {
         }
     }
 
+    public ArrayList<StudySession> getSessionByUser(int user_id){
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, user_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                ArrayList<StudySession> sessions = new ArrayList<>();
+                while (rs.next()) {
+                    StudySession session = mapResultSetToEntity(rs);
+                    sessions.add(session);
+                }
+                return sessions;
+            }
+        } catch (SQLException e) {
+            String errorMessage = "Error fetching Study Session";
+            DatabaseLogger.logError(errorMessage, e);
+            throw new DatabaseException(errorMessage, e);
+        }
+    }
+
     public boolean deleteByScheduleId(int schedule_id){
         String query = "DELETE FROM " + TABLE_NAME + " WHERE schedule_id = ?";
         try {

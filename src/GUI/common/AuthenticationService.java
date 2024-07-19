@@ -112,6 +112,9 @@ public class AuthenticationService {
     public ArrayList<StudySession> getStudySessionsByScheduleId(int schedule_id){
         return studySessionTable.getSessionBySchedule(schedule_id);
     }
+    public ArrayList<StudySession> getStudySessionsByUserId(int user_id){
+        return studySessionTable.getSessionByUser(user_id);
+    }
 
     public User getAllUserInfoById(int user_id){
         return usersTable.getById(user_id);

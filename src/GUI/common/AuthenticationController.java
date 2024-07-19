@@ -159,6 +159,14 @@ public class AuthenticationController {
         return null;
     }
 
+    public ArrayList<StudySession> getStudySessionsByUserId(int userId){
+        ArrayList<StudySession> allStudySessions=authService.getStudySessionsByUserId(userId);
+        if(allStudySessions.size()>0){
+            return allStudySessions;
+        }
+        return null;
+    }
+
     public User getAllUserInfoById(int user_id){
         return authService.getAllUserInfoById(user_id);
     }
